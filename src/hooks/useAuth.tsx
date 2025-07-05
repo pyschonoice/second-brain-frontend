@@ -1,4 +1,4 @@
-// src/hooks/useAuth.ts
+
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ interface AuthContextType {
   token: string | null;
   login: (accessToken: string) => void;
   logout: () => void;
-  isLoadingAuth: boolean; // Add loading state for initial auth check
+  isLoadingAuth: boolean; 
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,10 +16,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
-  const [isLoadingAuth, setIsLoadingAuth] = useState<boolean>(true); // Initial loading state
+  const [isLoadingAuth, setIsLoadingAuth] = useState<boolean>(true); 
   const navigate = useNavigate();
 
-  // Load auth state from localStorage on initial render
+  
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
 
@@ -29,11 +29,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setIsAuthenticated(true);
       } catch (error) {
         console.error('Failed to parse stored user data:', error);
-        // Clear invalid data
+        
         localStorage.removeItem('authToken');
       }
     }
-    setIsLoadingAuth(false); // Auth check complete
+    setIsLoadingAuth(false); 
   }, []);
 
   const login = useCallback((newToken: string) => {
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('authToken');
     setToken(null);
     setIsAuthenticated(false);
-    navigate('/signin'); // Redirect to sign-in page after logout
+    navigate('/signin'); 
   }, [navigate]);
 
   const value = {

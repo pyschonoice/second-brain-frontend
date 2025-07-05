@@ -1,6 +1,6 @@
 // src/api/tag.ts
 import api from './index';
-import { ApiResponse, TagApiData, CreateTagPayload, DeleteTagPayload } from '../types';
+import {  TagApiData, CreateTagPayload, DeleteTagPayload } from '../types';
 
 interface CreateTagResponse {
   success: boolean;

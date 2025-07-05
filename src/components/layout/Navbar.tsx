@@ -1,11 +1,13 @@
 // src/components/layout/Navbar.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Import useEffect
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../ui/Button';
 import { twMerge } from 'tailwind-merge';
 import { LightIcon } from '../icons/LightIcon';
 import { DarkIcon } from '../icons/DarkIcon';
+import { getContents } from '../../api/content'; // Import the API function
+
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -15,8 +17,38 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleDarkMode, onFilterChange, currentFilter }) => {
-  const { user, logout } = useAuth();
+  const { logout, isAuthenticated } = useAuth(); // Get isAuthenticated
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [username, setUsername] = useState<string | null>(null); // State for username
+  const [loadingUsername, setLoadingUsername] = useState(true); // Loading state for username
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (isAuthenticated) {
+        setLoadingUsername(true);
+        try {
+          // Make API request to get contents
+          const response = await getContents();
+          if (response.success && response.content && response.content.length > 0) {
+            // Extract username from the first content item
+            setUsername(response.content[0].userId?.username || null);
+          } else {
+            setUsername(null); // No content or username found
+          }
+        } catch (error) {
+          console.error("Failed to fetch username in Navbar:", error);
+          setUsername(null);
+        } finally {
+          setLoadingUsername(false);
+        }
+      } else {
+        setUsername(null); // Clear username if not authenticated
+        setLoadingUsername(false);
+      }
+    };
+
+    fetchUsername();
+  }, [isAuthenticated]); // Re-run when authentication status changes
 
   const filterOptions = [
     { label: 'All', value: 'all' },
@@ -91,10 +123,16 @@ export const Navbar: React.FC<NavbarProps> = ({ isDarkMode, toggleDarkMode, onFi
 
             {/* User Info and Actions */}
             <div className="flex flex-col lg:flex-row items-center gap-4 mt-4 lg:mt-0 lg:ml-auto">
-              {user && (
-                <span className="text-sidebar-foreground text-base">
-                  Hello, {user.username}!
+              {loadingUsername ? (
+                <span className="text-sidebar-foreground text-base font-bold">Loading user...</span>
+              ) : username ? (
+                <span className="text-sidebar-foreground text-base font-bold">
+                  Hello, {username}!
                 </span>
+              ) : (
+                isAuthenticated && (
+                    <span className="text-sidebar-foreground text-base font-bold">Hello, User!</span>
+                )
               )}
               <Button
                 variant="outline"

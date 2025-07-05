@@ -3,6 +3,7 @@
 export interface ApiResponse<T> {
   success: boolean;
   message?: string;
+  accessToken?: string,
   data?: T; // Make data optional as not all responses have it directly
 }
 

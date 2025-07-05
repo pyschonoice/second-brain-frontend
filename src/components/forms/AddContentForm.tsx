@@ -199,7 +199,7 @@ export const AddContentForm: React.FC<AddContentFormProps> = ({ onContentAdded, 
         <div  className='pl-2 mb-2'>
           <Label htmlFor="typeofContent">Type of Content</Label>
         </div>
-        
+ 
         <Select value={typeofContent} onValueChange={(value: ContentApiData['typeofContent']) => setTypeofContent(value)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select content type" />
@@ -228,7 +228,7 @@ export const AddContentForm: React.FC<AddContentFormProps> = ({ onContentAdded, 
             onChange={(e) => setLink(e.target.value)}
             placeholder="Enter your text content here..."
             className="flex h-32 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            required={typeofContent !== 'text'} // Make required only if not text
+            required={true} // Always required for non-text content types
           />
         ) : (
           <Input
@@ -241,7 +241,7 @@ export const AddContentForm: React.FC<AddContentFormProps> = ({ onContentAdded, 
               typeofContent === 'image' ? 'https://example.com/image.jpg' :
               'https://example.com/video.mp4'
             }
-            required={typeofContent !== 'text'} // Make required only if not text
+            required={true} // Make required only if not text
           />
         )}
       </div>

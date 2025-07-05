@@ -1,6 +1,6 @@
 // src/api/content.ts
 import api from './index';
-import { ApiResponse, ContentApiData, CreateContentPayload, DeleteContentPayload } from '../types';
+import { ContentApiData, CreateContentPayload, DeleteContentPayload } from '../types';
 
 interface GetContentsResponse {
   success: boolean;

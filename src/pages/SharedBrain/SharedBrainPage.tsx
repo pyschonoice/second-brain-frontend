@@ -1,4 +1,4 @@
-// src/pages/SharedBrain/SharedBrainPage.tsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSharedContent } from '../../api/brain';
@@ -7,7 +7,7 @@ import { BentoLayout } from '../../components/cards/BentoLayout';
 import { Spinner } from '../../components/ui/Spinner';
 
 const SharedBrainPage: React.FC = () => {
-  const { hash } = useParams<{ hash: string }>(); // Get the share hash from the URL
+  const { hash } = useParams<{ hash: string }>(); 
   const [contents, setContents] = useState<ContentApiData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,14 +26,14 @@ const SharedBrainPage: React.FC = () => {
       const response = await getSharedContent(hash);
       if (response.success && response.content) {
         setContents(response.content);
-        setUsername(response.username || 'Shared User'); // Use provided username or a default
+        setUsername(response.username || 'Shared User'); 
       } else {
         setError(response.message || 'Failed to load shared content.');
       }
     } catch (err: any) {
       console.error('Error fetching shared content:', err);
-      // Backend errors caught by axios interceptor will be re-thrown,
-      // so we can access response.data.message for specific errors.
+      
+      
       setError(err?.message || 'An unexpected error occurred while loading shared content. The link might be invalid or expired.');
     } finally {
       setIsLoading(false);
@@ -51,8 +51,8 @@ const SharedBrainPage: React.FC = () => {
           <h1 className="text-2xl md:text-3xl font-bold text-primary">
             {username ? `${username}'s Second Brain` : 'Shared Second Brain'}
           </h1>
-          {/* Optionally, you can add a link back to your main site here */}
-          {/* <Link to="/signin" className="text-sm text-muted-foreground hover:underline">Go to My Brain</Link> */}
+          {}
+          {}
         </div>
       </header>
 
@@ -77,8 +77,8 @@ const SharedBrainPage: React.FC = () => {
                 <p className="text-lg">This Second Brain currently has no shared content.</p>
               </div>
             ) : (
-              // Note: onDeleteContent is not needed for a read-only shared view, so pass a dummy function
-              <BentoLayout contents={contents} onDeleteContent={() => { /* no-op */ }} />
+              
+              <BentoLayout contents={contents} onDeleteContent={() => {  }} />
             )}
           </>
         )}

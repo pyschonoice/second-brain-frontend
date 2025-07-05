@@ -1,8 +1,7 @@
-// src/pages/Auth/SignUp.tsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthForm } from '../../components/forms/AuthForm';
-import { signup } from '../../api/auth';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthForm } from "../../components/forms/AuthForm";
+import { signup } from "../../api/auth";
 
 const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -15,15 +14,17 @@ const SignUp: React.FC = () => {
     try {
       const response = await signup({ username, password });
       if (response.success) {
-        alert(response.message || 'Account created successfully! Please sign in.');
-        navigate('/signin'); // Redirect to sign-in page after successful registration
+        alert(
+          response.message || "Account created successfully! Please sign in."
+        );
+        navigate("/signin");
       } else {
-        setError(response.message || 'Sign up failed. Please try again.');
+        setError(response.message || "Sign up failed. Please try again.");
       }
     } catch (err: any) {
-      console.error('Sign up error:', err);
-      // Backend error structure often has a 'message' field
-      setError(err?.message || 'An unexpected error occurred during sign up.');
+      console.error("Sign up error:", err);
+
+      setError(err?.message || "An unexpected error occurred during sign up.");
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +40,7 @@ const SignUp: React.FC = () => {
           error={error}
         />
         <p className="mt-4 text-sm text-muted-foreground">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link to="/signin" className="text-primary hover:underline">
             Sign In
           </Link>
